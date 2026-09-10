@@ -1,10 +1,8 @@
 package org.epam;
 
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -35,7 +33,7 @@ public class BasicTests extends BaseTest {
         // Perform a long press
         // We get the element, and then we trigger a JS that performs the action
         WebElement namesElement = driver.findElement(By.xpath("//android.widget.TextView[@text='People Names']"));
-        performLongPressAction(namesElement);
+        appiumActions.performLongPressAction(namesElement);
 
         WebElement menuElement = driver.findElement(By.id("android:id/title"));
         Assert.assertTrue(menuElement.isDisplayed());
@@ -45,7 +43,7 @@ public class BasicTests extends BaseTest {
     @Test
     public void scrollTest() throws InterruptedException {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
-        performScroll("WebView", false);
+        appiumActions.performScroll("WebView", true);
         Thread.sleep(2000);
     }
 }
