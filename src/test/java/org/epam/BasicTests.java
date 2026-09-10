@@ -4,19 +4,15 @@ import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.Optional;
 
 public class BasicTests extends BaseTest {
 
     @Test
-    public void wifiSettingsTest() throws URISyntaxException, MalformedURLException {
+    public void wifiSettingsTest() {
         // Automation
         driver.findElement(AppiumBy.accessibilityId("Preference")).click();
         driver.findElement(By.xpath("//android.widget.TextView[@content-desc='3. Preference dependencies']")).click();
@@ -31,7 +27,7 @@ public class BasicTests extends BaseTest {
     }
 
     @Test
-    public void appiumActionsTest() throws InterruptedException {
+    public void longPressTest() {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
         driver.findElement(By.xpath("//android.widget.TextView[@text='Expandable Lists']")).click();
         driver.findElement(AppiumBy.accessibilityId("1. Custom Adapter")).click();
@@ -39,19 +35,17 @@ public class BasicTests extends BaseTest {
         // Perform a long press
         // We get the element, and then we trigger a JS that performs the action
         WebElement namesElement = driver.findElement(By.xpath("//android.widget.TextView[@text='People Names']"));
-        Optional<String> elementId = Optional.ofNullable(((RemoteWebElement) namesElement).getId());
+        performLongPressAction(namesElement);
 
-        // In order to perform the script we pass the gesture, and a map that contains the elementId and the duration.
-        driver.executeScript(
-                "mobile: longClickGesture",
-                ImmutableMap.of(
-                        "elementId",
-                        elementId.orElse("Error"),
-                        "duration",
-                        2000
-                )
-        );
+        WebElement menuElement = driver.findElement(By.id("android:id/title"));
+        Assert.assertTrue(menuElement.isDisplayed());
+        Assert.assertEquals(menuElement.getText(), "Sample menu");
+    }
+
+    @Test
+    public void scrollTest() throws InterruptedException {
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
+        performScroll("WebView", false);
         Thread.sleep(2000);
-
     }
 }
