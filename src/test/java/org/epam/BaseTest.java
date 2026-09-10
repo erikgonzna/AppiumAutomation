@@ -40,6 +40,7 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         //Create the object for the actions
+        //I created this class to separate the logic of the actions
         appiumActions = new AppiumActions(driver);
 
     }

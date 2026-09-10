@@ -9,6 +9,9 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import java.util.Optional;
 
 // For all the actions you can see https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md
+// If the code of the actions didn't work, cast the driver to JavaScriptExecutor
+// ((JavascriptExecutor) driver).executeScript()
+
 public class AppiumActions {
     public AndroidDriver driver;
 
@@ -22,8 +25,7 @@ public class AppiumActions {
         driver.executeScript(
                 "mobile: longClickGesture",
                 ImmutableMap.of(
-                        "elementId",
-                        elementId.orElse("Error"),
+                        "elementId", elementId.orElse("Error"),
                         "duration",
                         2000
                 )
@@ -51,5 +53,16 @@ public class AppiumActions {
                 );
             } while (canScrollMore);
         }
+    }
+
+    public void performSwipe(WebElement element, String direction) {
+        Optional<String> elementId = Optional.ofNullable(((RemoteWebElement) element).getId());
+        driver.executeScript(
+                "mobile: swipeGesture", ImmutableMap.of(
+                        "elementId", elementId.orElse("Error"),
+                        "direction", direction,
+                        "percent", 0.25
+                )
+        );
     }
 }

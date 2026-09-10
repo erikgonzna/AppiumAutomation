@@ -46,4 +46,26 @@ public class BasicTests extends BaseTest {
         appiumActions.performScroll("WebView", true);
         Thread.sleep(2000);
     }
+
+    @Test
+    public void swipeTest() throws InterruptedException {
+        driver.findElement(AppiumBy.accessibilityId("Views")).click();
+        driver.findElement(AppiumBy.accessibilityId("Gallery")).click();
+        driver.findElement(AppiumBy.accessibilityId("1. Photos")).click();
+
+        // Getting the attribute of the first image
+        WebElement firstImage = driver.findElement(By.xpath("//android.widget.ImageView[1]"));
+        Assert.assertEquals(
+                firstImage.getAttribute("focusable"),
+                "true"
+        );
+        appiumActions.performSwipe(firstImage, "left");
+        Thread.sleep(2000);
+
+        // Now the image is out of focus
+        Assert.assertEquals(
+                firstImage.getAttribute("focusable"),
+                "false"
+        );
+    }
 }
